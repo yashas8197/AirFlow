@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useFetch from "../utils/useFetch";
 import TaskItem from "./TaskItem";
+import AddTaskModal from "./AddTaskModal";
 
 const TaskList = () => {
   const [selectedPriority, setSelectedPriority] = useState("");
@@ -9,7 +10,6 @@ const TaskList = () => {
     "https://3ab568f0-8e65-4391-a363-ed60547be138-00-2mecytqoyyfst.sisko.replit.dev:3002/tasks"
   );
 
-  console.log(data);
   if (data === null) return;
 
   const filterData = () => {
@@ -19,6 +19,7 @@ const TaskList = () => {
         return selectedPriority ? task.priority === +selectedPriority : true;
       })
       .sort((task1, task2) => {
+        //Filter bases on sort order
         return sortOrder === "asc"
           ? task1.priority - task2.priority
           : sortOrder === "desc"
@@ -28,8 +29,6 @@ const TaskList = () => {
   };
 
   const filteredData = filterData();
-
-  console.log(filteredData);
 
   return (
     <div
@@ -72,10 +71,7 @@ const TaskList = () => {
         </div>
 
         <div>
-          <button type="button" className="btn btn-secondary px-4 rounded-3">
-            <i className="bi bi-plus-lg"></i>
-            <span className="mx-1">Add Task</span>
-          </button>
+          <AddTaskModal />
         </div>
       </div>
 
