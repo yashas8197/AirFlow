@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 const TaskItem = ({ task }) => {
+  const [modalShow, setModalShow] = useState(false);
   return (
     <>
       <div className="d-flex justify-content-between align-items-center">
@@ -36,11 +38,15 @@ const TaskItem = ({ task }) => {
             <i className="bi bi-pencil"></i>
           </button>
 
-          <button className="rounded-circle">
+          <button className="rounded-circle" onClick={() => setModalShow(true)}>
             <i className="bi bi-trash3"></i>
           </button>
         </div>
       </div>
+      <DeleteConfirmationModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </>
   );
 };
