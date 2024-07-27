@@ -29,6 +29,21 @@ const taskReducer = (state = initialState, action) => {
         ...state,
         tasks: action.payload,
       };
+    case "EDIT_TASK":
+      return {
+        ...state,
+        tasks: action.payload,
+      };
+    case "FETCH_TASK_BY_PRIORITY":
+      return {
+        ...state,
+        tasks: action.payload,
+      };
+    case "FETCH_TASK_BY_TEXT":
+      return {
+        ...state,
+        tasks: action.payload,
+      };
     default:
       return state;
   }

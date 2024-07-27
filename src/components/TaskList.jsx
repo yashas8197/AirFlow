@@ -10,16 +10,18 @@ const TaskList = () => {
   const [sortOrder, setSortOrder] = useState("");
   const tasks = useSelector((state) => state.tasks) || [];
 
-  console.log(tasks);
+  const serverUrl = localStorage.getItem("serverUrl");
 
   useEffect(() => {
-    dispatch(getAllTasks());
-  }, []);
+    if (serverUrl !== null) {
+      dispatch(getAllTasks(serverUrl));
+    }
+  }, [serverUrl]);
 
   if (tasks === null) return;
 
   const handleClickSort = () => {
-    dispatch(sortByPriority());
+    dispatch(sortByPriority(serverUrl));
   };
 
   const handleOnChange = async (e) => {
@@ -27,7 +29,7 @@ const TaskList = () => {
 
     try {
       const response = await fetch(
-        `https://3ab568f0-8e65-4391-a363-ed60547be138-00-2mecytqoyyfst.sisko.replit.dev:3002/tasks/filter-by-priority?priority=${priorityValue}`
+        serverUrl + `tasks/filter-by-priority?priority=${priorityValue}`
       );
 
       const data = await response.json();

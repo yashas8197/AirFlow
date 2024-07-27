@@ -4,10 +4,11 @@ import { useDispatch } from "react-redux";
 
 function DeleteConfirmationModal({ show, onHide, taskId }) {
   const dispatch = useDispatch();
+
+  const serverUrl = localStorage.getItem("serverUrl");
+
   const handleDelete = async () => {
-    const response = await fetch(
-      `https://3ab568f0-8e65-4391-a363-ed60547be138-00-2mecytqoyyfst.sisko.replit.dev:3002/tasks/delete?taskId=${taskId}`
-    );
+    const response = await fetch(serverUrl + `tasks/delete?taskId=${taskId}`);
     const data = await response.json();
     dispatch(deleteTask(data));
     onHide();

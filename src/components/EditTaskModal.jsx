@@ -1,55 +1,29 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { addTasks } from "../actions";
 import Modal from "react-bootstrap/Modal";
+import { useDispatch } from "react-redux";
+import { editTaskByPriority, editTaskByText } from "../actions";
 
-function AddTaskModal() {
+function EditTaskModal({ taskText, taskPriority, taskId }) {
+  const [text, setText] = useState(taskText);
+  const [priority, setPriority] = useState(taskPriority);
   const [show, setShow] = useState(false);
-  const [taskId, setTaskId] = useState("");
-  const [taskName, setTaskName] = useState("");
-  const [priority, setPriority] = useState("");
   const dispatch = useDispatch();
-
-  const serverUrl = localStorage.getItem("serverUrl");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleSave = async () => {
-    try {
-      const response = await fetch(
-        serverUrl +
-          `tasks/add?taskId=${taskId}&text=${taskName}&priority=${priority}`
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error("Failed To Add Recipe");
-      }
-
-      dispatch(addTasks(data));
-
-      handleClose();
-      setTaskId("");
-      setTaskName("");
-      setPriority("");
-    } catch (error) {
-      console.log(error);
-    }
+  const serverUrl = localStorage.getItem("serverUrl");
+  const handleEdit = () => {
+    dispatch(editTaskByPriority(priority, taskId, serverUrl));
+    dispatch(editTaskByText(text, taskId, serverUrl));
+    handleClose();
   };
 
   return (
     <>
-      <button
-        onClick={handleShow}
-        type="button"
-        className="btn btn-secondary px-4 rounded-3"
-      >
-        <i className="bi bi-plus-lg"></i>
-        <span className="mx-1">Add Task</span>
+      <button className="rounded-circle mx-2" onClick={handleShow}>
+        <i className="bi bi-pencil"></i>
       </button>
-
       <Modal
         show={show}
         onHide={handleClose}
@@ -68,7 +42,7 @@ function AddTaskModal() {
               <button
                 type="button"
                 className="btn btn-secondary rounded-start-pill px-4"
-                value="1"
+                value={1}
                 onClick={(e) => setPriority(e.target.value)}
               >
                 High
@@ -77,7 +51,7 @@ function AddTaskModal() {
               <button
                 type="button"
                 className="btn btn-secondary px-4"
-                value="2"
+                value={2}
                 onClick={(e) => setPriority(e.target.value)}
               >
                 Medium
@@ -86,7 +60,7 @@ function AddTaskModal() {
               <button
                 type="button"
                 className="btn btn-secondary rounded-end-pill px-4"
-                value="3"
+                value={3}
                 onClick={(e) => setPriority(e.target.value)}
               >
                 Low
@@ -95,22 +69,11 @@ function AddTaskModal() {
           </div>
 
           <div className="my-5">
-            <p className="mx-2 my-3 h5">Task Id</p>
-            <input
-              type="number"
-              className="form-control mx-2 py-2"
-              value={taskId}
-              onChange={(e) => setTaskId(e.target.value)}
-            />
-          </div>
-
-          <div className="my-5">
             <p className="mx-2 my-3 h5">Task Name</p>
             <input
               className="form-control mx-2 py-2"
-              placeholder="Eg: Fix bugs"
-              value={taskName}
-              onChange={(e) => setTaskName(e.target.value)}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
             />
           </div>
         </Modal.Body>
@@ -124,7 +87,7 @@ function AddTaskModal() {
             </button>
             <button
               className="btn btn-secondary rounded-3 mx-2"
-              onClick={handleSave}
+              onClick={handleEdit}
             >
               Save
             </button>
@@ -135,4 +98,4 @@ function AddTaskModal() {
   );
 }
 
-export default AddTaskModal;
+export default EditTaskModal;

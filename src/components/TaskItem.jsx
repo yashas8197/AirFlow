@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import EditTaskModal from "./EditTaskModal";
 
 const TaskItem = ({ task }) => {
   const [modalShow, setModalShow] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [taskId, setTaskId] = useState(null);
 
-  const handleTrashClick = async (taskId) => {
+  const handleTrashClick = (taskId) => {
     setModalShow(true);
     setTaskId(taskId);
   };
-
-  console.log(task);
 
   return (
     <>
       <div className="d-flex justify-content-between align-items-center">
         <div>
-          <p className="h4">{task.text}</p>
+          <p className="h4">
+            {task.taskId}. {task.text}
+          </p>
           <div>
             {task.priority === 1 ? (
               <button
@@ -43,9 +45,13 @@ const TaskItem = ({ task }) => {
           </div>
         </div>
         <div>
-          <button className="rounded-circle mx-2">
-            <i className="bi bi-pencil"></i>
-          </button>
+          <EditTaskModal
+            show={showEditModal}
+            onHide={() => setShowEditModal(false)}
+            taskId={task.taskId}
+            taskText={task.text}
+            taskPriority={task.priority}
+          />
 
           <button
             className="rounded-circle"
