@@ -1,34 +1,42 @@
-import { useState } from "react";
-import useFetch from "../utils/useFetch";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import TaskItem from "./TaskItem";
 import AddTaskModal from "./AddTaskModal";
+import { filterByPriority, getAllTasks, sortByPriority } from "../actions";
 
 const TaskList = () => {
-  const [selectedPriority, setSelectedPriority] = useState("");
+  const dispatch = useDispatch();
   const [sortOrder, setSortOrder] = useState("");
-  const { data, loading, error } = useFetch(
-    "https://3ab568f0-8e65-4391-a363-ed60547be138-00-2mecytqoyyfst.sisko.replit.dev:3002/tasks"
-  );
+  const tasks = useSelector((state) => state.tasks) || [];
 
-  if (data === null) return;
+  console.log(tasks);
 
-  const filterData = () => {
-    return data
-      .filter((task) => {
-        // Filter based on selected priority
-        return selectedPriority ? task.priority === +selectedPriority : true;
-      })
-      .sort((task1, task2) => {
-        //Filter bases on sort order
-        return sortOrder === "asc"
-          ? task1.priority - task2.priority
-          : sortOrder === "desc"
-          ? task2.priority - task1.priority
-          : true;
-      });
+  useEffect(() => {
+    dispatch(getAllTasks());
+  }, []);
+
+  if (tasks === null) return;
+
+  const handleClickSort = () => {
+    dispatch(sortByPriority());
   };
 
-  const filteredData = filterData();
+  const handleOnChange = async (e) => {
+    const priorityValue = e.target.value;
+
+    try {
+      const response = await fetch(
+        `https://3ab568f0-8e65-4391-a363-ed60547be138-00-2mecytqoyyfst.sisko.replit.dev:3002/tasks/filter-by-priority?priority=${priorityValue}`
+      );
+
+      const data = await response.json();
+
+      dispatch(filterByPriority(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -41,7 +49,7 @@ const TaskList = () => {
       >
         <div>
           <select
-            onChange={(e) => setSelectedPriority(e.target.value)}
+            onChange={handleOnChange}
             className="form-select"
             defaultValue="Filter"
           >
@@ -57,14 +65,7 @@ const TaskList = () => {
           <button
             type="button"
             className="btn btn-outline-secondary rounded-pill mx-1"
-            onClick={() => setSortOrder("asc")}
-          >
-            Low to High
-          </button>
-          <button
-            type="button"
-            className="btn btn-outline-secondary rounded-pill mx-1"
-            onClick={() => setSortOrder("desc")}
+            onClick={handleClickSort}
           >
             High to Low
           </button>
@@ -77,7 +78,7 @@ const TaskList = () => {
 
       <div className="w-75 container">
         <ul className="list-group ">
-          {filteredData.map((task) => (
+          {tasks.map((task) => (
             <li
               key={task.taskId}
               className="list-group-item my-1 rounded-1"

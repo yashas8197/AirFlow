@@ -3,6 +3,15 @@ import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 const TaskItem = ({ task }) => {
   const [modalShow, setModalShow] = useState(false);
+  const [taskId, setTaskId] = useState(null);
+
+  const handleTrashClick = async (taskId) => {
+    setModalShow(true);
+    setTaskId(taskId);
+  };
+
+  console.log(task);
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-center">
@@ -38,13 +47,17 @@ const TaskItem = ({ task }) => {
             <i className="bi bi-pencil"></i>
           </button>
 
-          <button className="rounded-circle" onClick={() => setModalShow(true)}>
+          <button
+            className="rounded-circle"
+            onClick={() => handleTrashClick(task.taskId)}
+          >
             <i className="bi bi-trash3"></i>
           </button>
         </div>
       </div>
       <DeleteConfirmationModal
         show={modalShow}
+        taskId={taskId}
         onHide={() => setModalShow(false)}
       />
     </>

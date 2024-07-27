@@ -1,10 +1,20 @@
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { deleteTask } from "../actions";
+import { useDispatch } from "react-redux";
 
-function DeleteConfirmationModal(props) {
+function DeleteConfirmationModal({ show, onHide, taskId }) {
+  const dispatch = useDispatch();
+  const handleDelete = async () => {
+    const response = await fetch(
+      `https://3ab568f0-8e65-4391-a363-ed60547be138-00-2mecytqoyyfst.sisko.replit.dev:3002/tasks/delete?taskId=${taskId}`
+    );
+    const data = await response.json();
+    dispatch(deleteTask(data));
+    onHide();
+  };
   return (
     <Modal
-      {...props}
+      show={show}
       size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -18,11 +28,14 @@ function DeleteConfirmationModal(props) {
         <div className="d-flex justify-content-center mb-5">
           <button
             className="btn btn-outline-secondary rounded-3 px-4 mx-2"
-            onClick={props.onHide}
+            onClick={onHide}
           >
             No
           </button>
-          <button className="btn btn-outline-secondary rounded-3 px-4 mx-2">
+          <button
+            onClick={handleDelete}
+            className="btn btn-outline-secondary rounded-3 px-4 mx-2"
+          >
             Yes
           </button>
         </div>
