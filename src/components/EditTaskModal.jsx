@@ -21,7 +21,10 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
 
   return (
     <>
-      <button className="rounded-circle mx-2" onClick={handleShow}>
+      <button
+        className="rounded-circle mx-2 btn btn-secondary"
+        onClick={handleShow}
+      >
         <i className="bi bi-pencil"></i>
       </button>
       <Modal

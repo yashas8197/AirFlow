@@ -16,6 +16,7 @@ function ServerConnectPopup(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       show={props.show}
+      backdrop="static"
     >
       <Modal.Body>
         <h5 className="m-0">Connect your Express Server</h5>
