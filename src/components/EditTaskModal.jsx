@@ -20,7 +20,7 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
   };
 
   const getButtonStyle = (value) => ({
-    backgroundColor: priority === value ? "#585858" : "#343a40",
+    backgroundColor: priority === +value ? "#585858" : "#343a40",
     color: "#ffffff",
     border: `2px solid ${priority === value ? "#d3d3d3" : "#343a40"}`,
     borderRadius:
@@ -60,7 +60,7 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
               >
                 High
               </button>
-              {priority !== "1" && priority !== "2" && (
+              {priority !== 1 && priority !== 2 && (
                 <span
                   className="my-1"
                   style={{
@@ -79,7 +79,7 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
               >
                 Medium
               </button>
-              {priority !== "2" && priority !== "3" && (
+              {priority !== 2 && priority !== 3 && (
                 <span
                   className="my-1"
                   style={{
