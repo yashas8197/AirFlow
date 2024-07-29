@@ -20,11 +20,10 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
   };
 
   const getButtonStyle = (value) => ({
-    backgroundColor: priority === +value ? "#585858" : "#343a40",
+    backgroundColor: priority == value ? "#585858" : "#343a40",
     color: "#ffffff",
-    border: `2px solid ${priority === value ? "#d3d3d3" : "#343a40"}`,
-    borderRadius:
-      value === "1" ? "8px 0 0 8px" : value === "3" ? "0 8px 8px 0" : "0",
+    border: `2px solid ${priority == value ? "#d3d3d3" : "#343a40"}`,
+    borderRadius: value == 1 ? "8px 0 0 8px" : value == 3 ? "0 8px 8px 0" : "0",
   });
 
   return (
@@ -54,13 +53,13 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
               <button
                 type="button"
                 className="btn px-2"
-                style={getButtonStyle("1")}
-                value="1"
+                style={getButtonStyle(1)}
+                value={1}
                 onClick={(e) => setPriority(e.target.value)}
               >
                 High
               </button>
-              {priority !== 1 && priority !== 2 && (
+              {priority != 1 && priority != 2 && (
                 <span
                   className="my-1"
                   style={{
@@ -73,13 +72,13 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
               <button
                 type="button"
                 className="btn px-2"
-                style={getButtonStyle("2")}
-                value="2"
+                style={getButtonStyle(2)}
+                value={2}
                 onClick={(e) => setPriority(e.target.value)}
               >
                 Medium
               </button>
-              {priority !== 2 && priority !== 3 && (
+              {priority != 2 && priority != 3 && (
                 <span
                   className="my-1"
                   style={{
@@ -91,8 +90,8 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
               <button
                 type="button"
                 className="btn px-2"
-                style={getButtonStyle("3")}
-                value="3"
+                style={getButtonStyle(3)}
+                value={3}
                 onClick={(e) => setPriority(e.target.value)}
               >
                 Low

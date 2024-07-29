@@ -12,9 +12,14 @@ function App() {
     const serverUrl = localStorage.getItem("serverUrl");
 
     if (serverUrl !== null) {
-      setShow(false); // Hide the popup if serverUrl exists
+      setShow(false);
     }
   }, []);
+
+  const handleHideModal = () => {
+    setModalShow(false);
+    setShow(false);
+  };
 
   return (
     <div className="container">
@@ -22,12 +27,7 @@ function App() {
         <h1 className="display-6 text-center">Task Manager</h1>
       </div>
       <TaskList />
-      {show && (
-        <ServerConnectPopup
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-        />
-      )}
+      {show && <ServerConnectPopup show={modalShow} onHide={handleHideModal} />}
     </div>
   );
 }

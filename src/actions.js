@@ -1,10 +1,3 @@
-/* export const addTasks = (tasks) => {
-  return {
-    type: "ADD_TASKS",
-    payload: tasks,
-  };
-}; */
-
 export const addTasks =
   (serverUrl, priority, taskName, taskId) => async (dispatch) => {
     try {

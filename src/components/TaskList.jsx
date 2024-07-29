@@ -7,7 +7,6 @@ import { filterByPriority, getAllTasks, sortByPriority } from "../actions";
 
 const TaskList = () => {
   const dispatch = useDispatch();
-  const [sortOrder, setSortOrder] = useState("");
   const tasks = useSelector((state) => state.tasks) || [];
 
   const serverUrl = localStorage.getItem("serverUrl");
