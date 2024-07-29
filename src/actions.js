@@ -1,9 +1,31 @@
-export const addTasks = (tasks) => {
+/* export const addTasks = (tasks) => {
   return {
     type: "ADD_TASKS",
     payload: tasks,
   };
-};
+}; */
+
+export const addTasks =
+  (serverUrl, priority, taskName, taskId) => async (dispatch) => {
+    try {
+      const response = await fetch(
+        serverUrl +
+          `tasks/add?taskId=${taskId}&text=${taskName}&priority=${priority}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed To Add Recipe");
+      }
+
+      const data = await response.json();
+
+      if (data) {
+        dispatch({ type: "ADD_TASKS", payload: data });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const filterByPriority = (data) => {
   return {
