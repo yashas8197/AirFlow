@@ -19,6 +19,14 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
     handleClose();
   };
 
+  const getButtonStyle = (value) => ({
+    backgroundColor: priority === value ? "#585858" : "#343a40",
+    color: "#ffffff",
+    border: `2px solid ${priority === value ? "#d3d3d3" : "#343a40"}`,
+    borderRadius:
+      value === "1" ? "8px 0 0 8px" : value === "3" ? "0 8px 8px 0" : "0",
+  });
+
   return (
     <>
       <button
@@ -38,32 +46,53 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
           <p className="mx-2 my-3 h5">Set Priority</p>
           <div className="">
             <div
-              className="btn-group d-flex justify-content-center mb-4"
+              className="btn-group d-flex justify-content-center mb-4 mx-2"
+              style={{ backgroundColor: "#343a40" }}
               role="group"
               aria-label="Basic example"
             >
               <button
                 type="button"
-                className="btn btn-secondary rounded-start-pill px-4"
-                value={1}
+                className="btn px-2"
+                style={getButtonStyle("1")}
+                value="1"
                 onClick={(e) => setPriority(e.target.value)}
               >
                 High
               </button>
-              <span className="border border-white"></span>
+              {priority !== "1" && priority !== "2" && (
+                <span
+                  className="my-1"
+                  style={{
+                    borderLeft: "2px solid #686868",
+                    padding: "2px",
+                  }}
+                ></span>
+              )}
+
               <button
                 type="button"
-                className="btn btn-secondary px-4"
-                value={2}
+                className="btn px-2"
+                style={getButtonStyle("2")}
+                value="2"
                 onClick={(e) => setPriority(e.target.value)}
               >
                 Medium
               </button>
-              <span className="border border-white"></span>
+              {priority !== "2" && priority !== "3" && (
+                <span
+                  className="my-1"
+                  style={{
+                    borderLeft: "2px solid #686868",
+                    padding: "2px",
+                  }}
+                ></span>
+              )}
               <button
                 type="button"
-                className="btn btn-secondary rounded-end-pill px-4"
-                value={3}
+                className="btn px-2"
+                style={getButtonStyle("3")}
+                value="3"
                 onClick={(e) => setPriority(e.target.value)}
               >
                 Low
