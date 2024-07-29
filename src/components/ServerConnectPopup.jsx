@@ -5,8 +5,10 @@ import Modal from "react-bootstrap/Modal";
 function ServerConnectPopup(props) {
   const [serverUrl, setServerUrl] = useState("");
   const saveChange = () => {
-    props.onHide();
-    localStorage.setItem("serverUrl", serverUrl);
+    if (serverUrl.length > 0 && serverUrl.includes("https://")) {
+      localStorage.setItem("serverUrl", serverUrl);
+      props.onHide();
+    }
   };
 
   return (
@@ -27,6 +29,7 @@ function ServerConnectPopup(props) {
           <label className="fw-bold me-2">Server URL</label>
           <div className="w-75">
             <input
+              required
               className="form-control"
               type="text"
               value={serverUrl}
