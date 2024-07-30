@@ -10,7 +10,15 @@ function AddTaskModal() {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks);
 
-  let taskId = tasks.length + 1;
+  const getNewTaskId = () => {
+    if (tasks.length === 0) return 1;
+
+    const ids = tasks.map((task) => task.taskId);
+
+    const maxId = Math.max(...ids);
+
+    return maxId + 1;
+  };
 
   const serverUrl = localStorage.getItem("serverUrl");
 
@@ -18,15 +26,12 @@ function AddTaskModal() {
   const handleShow = () => setShow(true);
 
   const handleSave = async () => {
-    try {
-      dispatch(addTasks(serverUrl, priority, taskName, taskId));
+    let taskId = getNewTaskId();
+    dispatch(addTasks(serverUrl, priority, taskName, taskId));
 
-      handleClose();
-      setTaskName("");
-      setPriority("");
-    } catch (error) {
-      console.log(error);
-    }
+    handleClose();
+    setTaskName("");
+    setPriority("");
   };
 
   const getButtonStyle = (value) => ({

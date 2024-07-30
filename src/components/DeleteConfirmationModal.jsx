@@ -7,10 +7,8 @@ function DeleteConfirmationModal({ show, onHide, taskId }) {
 
   const serverUrl = localStorage.getItem("serverUrl");
 
-  const handleDelete = async () => {
-    const response = await fetch(serverUrl + `tasks/delete?taskId=${taskId}`);
-    const data = await response.json();
-    dispatch(deleteTask(data));
+  const handleDelete = () => {
+    dispatch(deleteTask(serverUrl, taskId));
     onHide();
   };
   return (

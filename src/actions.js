@@ -7,7 +7,7 @@ export const addTasks =
       );
 
       if (!response.ok) {
-        throw new Error("Failed To Add Recipe");
+        throw new Error("Failed To Add Tasks");
       }
 
       const data = await response.json();
@@ -20,18 +20,49 @@ export const addTasks =
     }
   };
 
-export const filterByPriority = (data) => {
-  return {
-    type: "FETCH_BY_PRIORITY",
-    payload: data,
-  };
-};
+export const filterByPriority =
+  (serverUrl, priorityValue) => async (dispatch) => {
+    try {
+      const response = await fetch(
+        serverUrl + `tasks/filter-by-priority?priority=${priorityValue}`
+      );
 
-export const deleteTask = (data) => {
-  return {
-    type: "DELETE_TASK",
-    payload: data,
+      if (!response.ok) {
+        throw new Error("Failed To Add Tasks");
+      }
+
+      const data = await response.json();
+
+      if (data) {
+        dispatch({
+          type: "FETCH_BY_PRIORITY",
+          payload: data,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+export const deleteTask = (serverUrl, taskId) => async (dispatch) => {
+  try {
+    const response = await fetch(serverUrl + `tasks/delete?taskId=${taskId}`);
+
+    if (!response.ok) {
+      throw new Error("Failed To Add Tasks");
+    }
+
+    const data = await response.json();
+
+    if (data) {
+      dispatch({
+        type: "DELETE_TASK",
+        payload: data,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const editTaskByPriority =

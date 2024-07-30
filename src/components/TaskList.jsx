@@ -23,20 +23,10 @@ const TaskList = () => {
     dispatch(sortByPriority(serverUrl));
   };
 
-  const handleOnChange = async (e) => {
+  const handleOnChange = (e) => {
     const priorityValue = e.target.value;
 
-    try {
-      const response = await fetch(
-        serverUrl + `tasks/filter-by-priority?priority=${priorityValue}`
-      );
-
-      const data = await response.json();
-
-      dispatch(filterByPriority(data));
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(filterByPriority(serverUrl, priorityValue));
   };
 
   return (
