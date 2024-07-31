@@ -29,7 +29,8 @@ function EditTaskModal({ taskText, taskPriority, taskId }) {
   return (
     <>
       <button
-        className="rounded-circle mx-2 btn btn-secondary"
+        className="rounded-circle mx-2 btn text-light-emphasis"
+        style={{ backgroundColor: "#525252" }}
         onClick={handleShow}
       >
         <i className="bi bi-pencil"></i>

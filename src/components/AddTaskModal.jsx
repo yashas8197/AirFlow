@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTasks } from "../actions";
 import Modal from "react-bootstrap/Modal";
+import { Plus } from "lucide-react";
 
 function AddTaskModal() {
   const [show, setShow] = useState(false);
@@ -47,9 +48,10 @@ function AddTaskModal() {
       <button
         onClick={handleShow}
         type="button"
-        className="btn btn-secondary px-4 rounded-3"
+        className="btn text-light-emphasis fw-bold px-2 rounded-3"
+        style={{ backgroundColor: "#525252" }}
       >
-        <i className="bi bi-plus-lg"></i>
+        <Plus style={{ marginBottom: "1px" }} />
         <span className="mx-1">Add Task</span>
       </button>
 

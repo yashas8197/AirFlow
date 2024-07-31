@@ -54,7 +54,8 @@ const TaskItem = ({ task }) => {
           />
 
           <button
-            className="rounded-circle btn btn-secondary"
+            className="rounded-circle btn text-light-emphasis"
+            style={{ backgroundColor: "#525252" }}
             onClick={() => handleTrashClick(task.taskId)}
           >
             <i className="bi bi-trash3"></i>

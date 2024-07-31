@@ -1,44 +1,28 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function ServerConnectPopup({ show, onHide }) {
-  const [serverUrl, setServerUrl] = useState("");
-
-  const isValidUrl = (url) => {
-    const urlPattern = /^https:\/\//;
-    return urlPattern.test(url);
-  };
+function EditServerUrl(props) {
+  const [serverUrl, setServerUrl] = useState(localStorage.getItem("serverUrl"));
+  const inputRef = useRef(null);
 
   const saveChange = () => {
-    if (isValidUrl(serverUrl)) {
-      localStorage.setItem("serverUrl", serverUrl);
-      onHide();
-    }
+    localStorage.setItem("serverUrl", serverUrl);
+    props.onHide();
   };
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
+    if (props.show && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [props.show]);
   return (
     <Modal
+      {...props}
       size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      show={show}
-      backdrop="static"
-      onHide={() => {}}
     >
       <Modal.Body>
         <h5 className="m-0">Connect your Express Server</h5>
@@ -55,6 +39,7 @@ function ServerConnectPopup({ show, onHide }) {
               value={serverUrl}
               onChange={(e) => setServerUrl(e.target.value)}
               placeholder="https://www.example.com/"
+              ref={inputRef}
             />
           </div>
         </div>
@@ -68,4 +53,4 @@ function ServerConnectPopup({ show, onHide }) {
   );
 }
 
-export default ServerConnectPopup;
+export default EditServerUrl;
